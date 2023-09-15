@@ -41,24 +41,24 @@ class Solution {
         if (head == nullptr || head->next == nullptr)
             return head;
 
-    
+
 
         auto real_head = new ListNode(-1, head);
         auto fast = head->next;
         auto low = real_head;
 
+
+
         while (fast != nullptr && low->next != nullptr) {
-            ListNode* next;
-            if (fast != nullptr)
-               next = fast->next;
-            else
-                next = nullptr;
+            ListNode* next=fast->next;
+           
             fast->next = low->next;
             low->next->next = next;
             low->next = fast;
 
+            //renew the low
             low = low->next->next;
-
+            // renew the fast
             if (next != nullptr)
                 fast = next->next;
         }
