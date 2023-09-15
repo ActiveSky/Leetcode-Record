@@ -1,8 +1,5 @@
 // @lcpr-before-debug-begin
 
-
-
-
 // @lcpr-before-debug-end
 
 /*
@@ -17,13 +14,13 @@
 #include <vector>
 using namespace std;
 
-// struct ListNode {
-//     int val;
-//     ListNode* next;
-//     ListNode() : val(0), next(nullptr) {}
-//     ListNode(int x) : val(x), next(nullptr) {}
-//     ListNode(int x, ListNode* next) : val(x), next(next) {}
-// };
+struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode* next) : val(x), next(next) {}
+};
 
 // @lc code=start
 /**
@@ -44,24 +41,29 @@ class Solution {
         if (head == nullptr || head->next == nullptr)
             return head;
 
+    
+
+        auto real_head = new ListNode(-1, head);
         auto fast = head->next;
-        auto low = head;
+        auto low = real_head;
 
-        while (low != nullptr && fast != nullptr) {
-            
-            
-            auto next = fast->next;
-            fast->next = low;
-            low->next = next;
+        while (fast != nullptr && low->next != nullptr) {
+            ListNode* next;
+            if (fast != nullptr)
+               next = fast->next;
+            else
+                next = nullptr;
+            fast->next = low->next;
+            low->next->next = next;
+            low->next = fast;
 
+            low = low->next->next;
 
             if (next != nullptr)
                 fast = next->next;
-
-            low = next;
         }
 
-        return head;
+        return real_head->next;
     }
 };
 // @lc code=end
