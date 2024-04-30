@@ -1,10 +1,9 @@
+# leetcode插件数据
 .lcpr_data
-.vscode/
-
+.vscode
 
 # test folder
-test/
+test
 
 # cache
-__pycache__/
-
+__pycache__
