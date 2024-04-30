@@ -1,3 +1,10 @@
 .lcpr_data
 .vscode/
+
+
+# test folder
 test/
+
+# cache
+__pycache__/
+
