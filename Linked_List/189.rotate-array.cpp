@@ -1,6 +1,6 @@
 /*
  * @lc app=leetcode.cn id=189 lang=cpp
- * @lcpr version=30113
+ * @lcpr version=30204
  *
  * [189] 轮转数组
  */
@@ -10,20 +10,24 @@ using namespace std;
 #include <algorithm>
 #include <iostream>
 #include <vector>
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode* left, TreeNode* right)
+        : val(x), left(left), right(right) {}
+};
 // @lcpr-template-end
 // @lc code=start
 class Solution {
    public:
     void rotate(vector<int>& nums, int k) {
-        // 1.cacular the real k
-        int n = nums.size();
-        k = k % n;
-        // 2.reverse the last k elements
-        reverse(nums.end() - k, nums.end());
-        // 3.reverse the first n-k elements
-        reverse(nums.begin(), nums.end() - k);
-        // 4.reverse the whole array
+        k=k%nums.size();
         reverse(nums.begin(), nums.end());
+        reverse(nums.begin(), nums.begin()+k);
+        reverse(nums.begin()+k, nums.end());
 
     }
 };
