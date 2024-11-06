@@ -1,8 +1,8 @@
 /*
- * @lc app=leetcode.cn id=226 lang=cpp
+ * @lc app=leetcode.cn id=101 lang=cpp
  * @lcpr version=30204
  *
- * [226] 翻转二叉树
+ * [101] 对称二叉树
  */
 
 // @lcpr-template-start
@@ -44,58 +44,55 @@ struct ListNode {
  */
 class Solution {
    public:
-    TreeNode* invertTree(TreeNode* root) {
-        // if (root == nullptr)
-        //     return nullptr;
+    bool isSymmetric(TreeNode* root) { return helper2(root, root); }
 
-        // TreeNode* temp = root->left;
-        // root->left = root->right;
-        // root->right = temp;
-
-        // invertTree(root->left);
-        // invertTree(root->right);
-
-        // return root;
-
-        invertTree2(root);
-        return root;
-    }
-    TreeNode* invertTree2(TreeNode* root) {
+    bool helper(TreeNode* root) {
         if (root == nullptr)
-            return nullptr;
-
+            return true;
         queue<TreeNode*> q;
         q.push(root);
-        // when q is not empy
+
         while (!q.empty()) {
-            TreeNode* node = q.front();
-            q.pop();
-
-            // swap left and right child
-            swap(node->left, node->right);
-
-            // push left and right child to queue
-            if (node->left)
-                q.push(node->left);
-            if (node->right)
-                q.push(node->right);
+            int size = q.size();
+            vector<int> level;
+            for (int i = 0; i < size; i++) {
+                TreeNode* node = q.front();
+                q.pop();
+                if (node == nullptr) {
+                    level.push_back(-111);
+                } else {
+                    level.push_back(node->val);
+                    q.push(node->left);
+                    q.push(node->right);
+                }
+            }
+            for (int i = 0; i < level.size() / 2; i++) {
+                if (level[i] != level[level.size() - 1 - i])
+                    return false;
+            }
         }
-        return root;
+        return true;
+    }
+    bool helper2(TreeNode* left, TreeNode* right) {
+        if (left == nullptr && right == nullptr)
+            return true;
+        if (left == nullptr || right == nullptr)
+            return false;
+        if (left->val != right->val)
+            return false;
+        return helper2(left->left, right->right) &&
+               helper2(left->right, right->left);
     }
 };
 // @lc code=end
 
 /*
 // @lcpr case=start
-// [4,2,7,1,3,6,9]\n
+// [1,2,2,3,4,4,3]\n
 // @lcpr case=end
 
 // @lcpr case=start
-// [2,1,3]\n
-// @lcpr case=end
-
-// @lcpr case=start
-// []\n
+// [1,2,2,null,3,null,3]\n
 // @lcpr case=end
 
  */

@@ -1,8 +1,8 @@
 /*
- * @lc app=leetcode.cn id=222 lang=cpp
+ * @lc app=leetcode.cn id=100 lang=cpp
  * @lcpr version=30204
  *
- * [222] 完全二叉树的节点个数
+ * [100] 相同的树
  */
 
 // @lcpr-template-start
@@ -42,32 +42,35 @@ struct ListNode {
  */
 class Solution {
    public:
-    int count = 0;
-    int countNodes(TreeNode* root) {
-        if (root == nullptr) {
-            return 0;
-        }
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+        // both two root are null
+        if (!p && !q)
+            return true;
+        // one of the root is null
+        if (!p || !q)
+            return false;
 
-                count++;
-        countNodes(root->left);
+        // compare the value of the root
+        if (p->val!=q->val)
+            return false;
 
-        countNodes(root->right);
-        return count;
+        // recursively compare the left and right subtrees
+        return isSameTree(p->left,q->left) && isSameTree(p->right,q->right);
     }
 };
 // @lc code=end
 
 /*
 // @lcpr case=start
-// [1,2,3,4,5,6]\n
+// [1,2,3]\n[1,2,3]\n
 // @lcpr case=end
 
 // @lcpr case=start
-// []\n
+// [1,2]\n[1,null,2]\n
 // @lcpr case=end
 
 // @lcpr case=start
-// [1]\n
+// [1,2,1]\n[1,1,2]\n
 // @lcpr case=end
 
  */
