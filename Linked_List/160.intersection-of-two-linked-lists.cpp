@@ -1,6 +1,6 @@
 /*
  * @lc app=leetcode.cn id=160 lang=cpp
- * @lcpr version=30202
+ * @lcpr version=30204
  *
  * [160] 相交链表
  */
@@ -10,13 +10,23 @@ using namespace std;
 #include <algorithm>
 #include <iostream>
 #include <vector>
-// @lcpr-template-end
-
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode* left, TreeNode* right)
+        : val(x), left(left), right(right) {}
+};
 struct ListNode {
     int val;
-    ListNode *next;
-    ListNode(int x) : val(x), next(NULL) {}
+    ListNode* next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode* next) : val(x), next(next) {}
 };
+// @lcpr-template-end
 // @lc code=start
 /**
  * Definition for singly-linked list.
@@ -26,51 +36,45 @@ struct ListNode {
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
-/**
- * @class Solution
- * @brief Class that provides a solution for finding the intersection node of two linked lists.
- */
-
 class Solution {
-public:
-    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        // Calculate the lengths of the two linked lists
+   public:
+    ListNode* getIntersectionNode(ListNode* headA, ListNode* headB) {
+        return helper(headA, headB);
+    }
+
+    ListNode* helper(ListNode* headA, ListNode* headB) {
+        if (!headA || !headB) return nullptr;
+        if (headA == headB) return headA;
+
+        //calculate the length of the two list
         int lenA = 0, lenB = 0;
-        ListNode *nodeA = headA, *nodeB = headB;
-        while (nodeA) {
-            lenA++;
-            nodeA = nodeA->next;
+        ListNode* pA = headA, *pB = headB;
+        while (pA) {
+            ++lenA;
+            pA = pA->next;
         }
-        while (nodeB) {
-            lenB++;
-            nodeB = nodeB->next;
+        while (pB) {
+            ++lenB;
+            pB = pB->next;
         }
-        
-        // Reset the pointers to the heads of the linked lists
-        nodeA = headA;
-        nodeB = headB;
-        
-        // Move the pointer of the longer list forward to make their lengths equal
+
+        // move it initial position
+        pA = headA;
+        pB = headB;
         if (lenA > lenB) {
             for (int i = 0; i < lenA - lenB; ++i) {
-                nodeA = nodeA->next;
+                pA = pA->next;
             }
-        } else {
+        }else {
             for (int i = 0; i < lenB - lenA; ++i) {
-                nodeB = nodeB->next;
+                pB = pB->next;
             }
         }
-        
-        // Traverse both linked lists simultaneously until intersection is found
-        while (nodeA && nodeB) {
-            if (nodeA == nodeB) {
-                return nodeA; // Intersection found
-            }
-            nodeA = nodeA->next;
-            nodeB = nodeB->next;
+        while (pA && pB) {
+            if (pA == pB) return pA;
+            pA = pA->next;
+            pB = pB->next;
         }
-        
-        // If no intersection found, return nullptr
         return nullptr;
     }
 };
